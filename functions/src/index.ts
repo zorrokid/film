@@ -4,6 +4,7 @@ import * as express from 'express';
 import * as bodyParser from "body-parser";
 
 admin.initializeApp(functions.config().firebase);
+const db = admin.firestore();
 
 const app = express();
 const main = express();
@@ -16,3 +17,31 @@ export const webApi = functions.https.onRequest(main);
 app.get('/test', (req, res) => {
     res.send('Get called');
 })
+
+interface IDirector {
+    firstName: string,
+    lastName: string
+}
+
+const directorsCollection = 'directors';
+
+app.post('/director', async (request, response) => {
+    try {
+      const { firstName, lastName } = request.body;
+      const director: IDirector = {
+          firstName,
+          lastName
+      } 
+      const directorRef = await db.collection(directorsCollection).add(director);
+      const directorFromDb = await directorRef.get();
+  
+      response.json({
+        id: directorFromDb.id,
+        data: directorFromDb.data()
+      });
+  
+    } catch(error){  
+      response.status(500).send("Got error " + error.message);
+  
+    }
+  });
