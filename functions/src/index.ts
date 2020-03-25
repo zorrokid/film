@@ -40,8 +40,27 @@ app.post('/director', async (request, response) => {
         data: directorFromDb.data()
       });
   
-    } catch(error){  
+    } catch(error) {  
       response.status(500).send("Got error " + error.message);
   
+    }
+  });
+
+  app.get('/directors', async (_request, response) => {
+    try {
+
+      const directorsSnapshot = await db.collection(directorsCollection).get();
+      const directors: IDirector[] = [];
+
+      directorsSnapshot.forEach(
+        (d: any) => {
+          directors.push(d.data());
+        }
+      );
+
+      response.json(directors);
+
+    } catch (error) {
+      response.status(500).send("Got error " + error.message);
     }
   });
