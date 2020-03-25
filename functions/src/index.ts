@@ -46,15 +46,24 @@ app.post('/director', async (request, response) => {
     }
   });
 
+
+interface IDirectorResult {
+  id: string,
+  director: IDirector
+}
+
   app.get('/directors', async (_request, response) => {
     try {
 
       const directorsSnapshot = await db.collection(directorsCollection).get();
-      const directors: IDirector[] = [];
+      const directors: IDirectorResult[] = [];
 
       directorsSnapshot.forEach(
         (d: any) => {
-          directors.push(d.data());
+          directors.push({
+            id: d.id,
+            director: d.data()
+          });
         }
       );
 
