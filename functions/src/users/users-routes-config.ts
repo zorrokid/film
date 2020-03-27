@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { create, get, patch, remove } from './controller';
+import { create, get, patch, remove } from './users-controller';
 import { isAuthenticated } from '../auth/authenticated';
 import { isAuthorized } from '../auth/authorized'; 
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
+import { handleError } from '../util/error';
 
 export async function create(request: Request, response: Response) {
     try {
@@ -85,9 +86,4 @@ export async function remove(req: Request, res: Response) {
    } catch (err) {
        return handleError(res, err)
    }
-}
-
-
-function handleError(response: Response, error: any) {
-    return response.status(500).send({ message: `${error.code} - ${error.message}`});
 }
