@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import * as express from 'express';
 import * as bodyParser from "body-parser";
 import * as cors from 'cors';
-//import { usersRoutesConfig } from './users/users-routes-config';
+import { usersRoutesConfig } from './users/users-routes-config';
 import { directorsRoutesConfig } from './directors/directors-routes-config';
 
 import { initialize } from './firebase/init';
@@ -21,7 +21,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
 
-//usersRoutesConfig(app);
+usersRoutesConfig(app);
 directorsRoutesConfig(app, db);
 
 export const webApi = functions.https.onRequest(app);
